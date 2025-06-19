@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IT Maintenance Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1E1E1E;
+            color: #EAEAEA;
+            padding: 40px;
+            transition: all 0.3s ease;
+        }
+
+        .chat-container {
+            width: 60%;
+            margin: auto;
+            background: #2C2C2C;
+            padding: 20px;
+            border-radius: 10px;
+            min-height: 400px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+        }
+
+        .message {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 8px;
+        }
+
+        .bot {
+            background-color: #2C2C2C;
+            color: #E0E0E0;
+            text-align: left;
+        }
+
+        .you {
+            background-color: #3A3F47;
+            color: #FFFFFF;
+            text-align: right;
+        }
+
+        form {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            background-color: #1E1E1E;
+            border: 1px solid #444;
+            color: #EAEAEA;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .suggested-questions {
+            margin-top: 20px;
+        }
+
+        .suggested-questions ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .suggested-questions li {
+            display: inline-block;
+            background-color: #3A3F47;
+            color: #EAEAEA;
+            padding: 6px 12px;
+            margin: 5px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .suggested-questions li:hover {
+            background-color: #505861;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div style="text-align: center; margin-bottom: 20px;">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" style="height: 80px;">
+        </div>
+
+        <h2 style="text-align: center;">IT Maintenance Chatbot</h2>
+
+        {% for message in chat_history %}
+            <div class="message {{ 'you' if message.sender == 'You' else 'bot' }}">
+                <strong>{{ message.sender }}:</strong> {{ message.text }}
+            </div>
+        {% endfor %}
+
+         <div id="typingIndicator" class="typing-indicator" style="display: none;">
+    <span></span><span></span><span></span>
+  </div>
+
+     <form method="POST" id="chatForm">
+         <input type="text" name="message" id="chatInput" placeholder="Ask me about your IT issue..."
+style="width: 70%; padding: 6px 8px; font-size: 14px; border: 1px solid #444; background-color: #1E1E1E; color: #EAEAEA; border-radius: 4px;">
+
+    <button type="submit" name="action" value="send" onclick="setRequired(true)">Send</button>
+    <button type="submit" name="action" value="clear" class="clear-button" onclick="setRequired(false)">Clear</button>
+</form>
+<script>
+    function setRequired(isRequired) {
+        document.getElementById('chatInput').required = isRequired;
+    }
+</script>
+
+
+<div class="suggested-questions">
+    <p><strong>Try asking:</strong></p>
+
+    <!-- 🔍 Search Bar -->
+<input type="text" id="faqSearch" placeholder="Search help topics..."
+style="width: 70%; padding: 6px 8px; font-size: 14px; border: 1px solid #444; background-color: #1E1E1E; color: #EAEAEA; border-radius: 4px; margin-bottom: 10px;">
+
+<!-- 💡 Hidden FAQ List -->
+<ul id="faqList" style="display: none;">
+<li class="suggestion">How to reset my password?</li>
+<li class="suggestion">WiFi not working</li>
+<li class="suggestion">System is slow</li>
+<li class="suggestion">Printer not working</li>
+<li class="suggestion">Blue screen error on startup</li>
+<li class="suggestion">Email not syncing in Outlook</li>
+<li class="suggestion">Cannot connect to VPN</li>
+<li class="suggestion">Keyboard not responding</li>
+<li class="suggestion">How to update antivirus software?</li>
+<li class="suggestion">What to do when screen freezes?</li>
+<li class="suggestion">How to connect to WiFi?</li>
+<li class="suggestion">My mouse is not working</li>
+<li class="suggestion">Computer not turning on</li>
+<li class="suggestion">Laptop overheating</li>
+<li class="suggestion">How to install a printer driver?</li>
+<li class="suggestion">Monitor display issues</li>
+<li class="suggestion">Getting too many pop-ups</li>
+<li class="suggestion">How to clean up disk space?</li>
+<li class="suggestion">My USB port is not working</li>
+<li class="suggestion">How to open Task Manager?</li>
+<li class="suggestion">Slow internet connection</li>
+<li class="suggestion">Outlook keeps crashing</li>
+<li class="suggestion">How to recover deleted files?</li>
+<li class="suggestion">Sound not working on my PC</li>
+<li class="suggestion">Microphone not detected</li>
+<li class="suggestion">Webcam not working in Zoom</li>
+<li class="suggestion">How to change my Windows password?</li>
+<li class="suggestion">I forgot my email password</li>
+<li class="suggestion">Battery draining too fast</li>
+<li class="suggestion">Software not opening</li>
+<li class="suggestion">My desktop icons disappeared</li>
+<li class="suggestion">How to turn off startup apps?</li>
+<li class="suggestion">Unable to install software</li>
+<li class="suggestion">System updates stuck</li>
+<li class="suggestion">Touchpad not working on laptop</li>
+<li class="suggestion">Screen flickering issue</li>
+<li class="suggestion">How to take a screenshot?</li>
+<li class="suggestion">My files are missing</li>
+<li class="suggestion">How to connect to a projector?</li>
+<li class="suggestion">PC shuts down automatically</li>
+<li class="suggestion">How to access shared folders?</li>
+<li class="suggestion">Error code 403 - what does it mean?</li>
+<li class="suggestion">Blocked from accessing a website</li>
+<li class="suggestion">My device is not recognized</li>
+<li class="suggestion">How to run disk cleanup?</li>
+<li class="suggestion">Excel keeps crashing</li>
+<li class="suggestion">Word file is corrupted</li>
+<li class="suggestion">How to remove a virus?</li>
+<li class="suggestion">How to use remote desktop?</li>
+<li class="suggestion">Printer showing offline</li>
+<li class="suggestion">Outlook password prompt keeps popping up</li>
+<li class="suggestion">How to enable dark mode?</li>
+<li class="suggestion">My files won’t open</li>
+<li class="suggestion">How to empty recycle bin?</li>
+<li class="suggestion">Laptop making strange noises</li>
+<li class="suggestion">Fan is too loud</li>
+<li class="suggestion">How to change default browser?</li>
+<li class="suggestion">Browser is too slow</li>
+<li class="suggestion">How to clear browser cache?</li>
+<li class="suggestion">I clicked on a suspicious email</li>
+<li class="suggestion">How to schedule a scan?</li>
+<li class="suggestion">Can’t open PDF files</li>
+<li class="suggestion">How to zip and unzip files?</li>
+<li class="suggestion">How to find IP address?</li>
+<li class="suggestion">WiFi keeps disconnecting</li>
+<li class="suggestion">Bluetooth not working</li>
+<li class="suggestion">Can’t login to the system</li>
+<li class="suggestion">Laptop screen is black</li>
+<li class="suggestion">How to back up files?</li>
+<li class="suggestion">USB device not recognized</li>
+<li class="suggestion">PC won't boot after update</li>
+<li class="suggestion">How to access BIOS settings?</li>
+<li class="suggestion">Not receiving emails</li>
+<li class="suggestion">How to block a sender in Outlook?</li>
+<li class="suggestion">Shared drive not accessible</li>
+<li class="suggestion">Unable to print in color</li>
+<li class="suggestion">How to check RAM usage?</li>
+<li class="suggestion">Why is my disk at 100%?</li>
+<li class="suggestion">Laptop camera is blurry</li>
+<li class="suggestion">My cursor is stuck</li>
+<li class="suggestion">How to change screen resolution?</li>
+<li class="suggestion">Network drive disconnected</li>
+<li class="suggestion">How to run antivirus scan?</li>
+<li class="suggestion">Can't open Microsoft Teams</li>
+<li class="suggestion">Teams microphone not working</li>
+<li class="suggestion">Files won't download</li>
+<li class="suggestion">No internet access</li>
+<li class="suggestion">How to check system specs?</li>
+<li class="suggestion">How to share my screen?</li>
+<li class="suggestion">Slow file transfer</li>
+<li class="suggestion">How to install Zoom?</li>
+<li class="suggestion">Can’t access company portal</li>
+<li class="suggestion">How to connect second monitor?</li>
+<li class="suggestion">How to scan using printer?</li>
+<li class="suggestion">How to connect to a network printer?</li>
+<li class="suggestion">Error while opening Excel</li>
+<li class="suggestion">Laptop won’t wake up from sleep</li>
+<li class="suggestion">Flickering laptop screen</li>
+<li class="suggestion">PC won’t shut down</li>
+<li class="suggestion">Disk read error occurred</li>
+<li class="suggestion">How to use command prompt?</li>
+<li class="suggestion">Mouse pointer moving randomly</li>
+
+    <!-- Add 90+ more -->
+</ul>
+
+</div>
+
+<a href="{{ url_for('home') }}" class="back-button" style="
+  display: inline-block;
+  padding: 6px 14px;
+  font-size: 14px;
+  background-color: #2D2D2D;
+  color: #EAEAEA;
+  text-decoration: none;
+  border: 1px solid #555;
+  border-radius: 6px;
+  transition: background-color 0.3s;
+">← Home</a>
+
+
+    </div>
+
+    <script>
+        // Fill input with suggested text
+        document.querySelectorAll(".suggestion").forEach(function(item) {
+            item.addEventListener("click", function() {
+                document.querySelector("input[name='message']").value = item.innerText;
+            });
+        });
+// Filter and display relevant FAQ suggestions
+document.getElementById("faqSearch").addEventListener("keyup", function () {
+    const filter = this.value.toLowerCase();
+    const faqList = document.getElementById("faqList");
+    const items = faqList.querySelectorAll("li");
+
+    let hasMatch = false;
+
+    items.forEach(function (item) {
+        const text = item.textContent.toLowerCase();
+        const isVisible = filter && text.includes(filter);
+        item.style.display = isVisible ? "inline-block" : "none";
+        if (isVisible) hasMatch = true;
+    });
+
+    // Only show list if there's a match
+    faqList.style.display = hasMatch ? "block" : "none";
+});
+// When user clicks a suggestion, it fills the input
+document.querySelectorAll(".suggestion").forEach(function (item) {
+    item.addEventListener("click", function () {
+        document.getElementById("chatInput").value = item.innerText;
+        document.getElementById("faqSearch").value = '';
+        document.getElementById("faqList").style.display = 'none';
+    });
+});
+
+
+    </script>
+<script>
+const form = document.getElementById('chat-form');
+const input = document.getElementById('user-input');
+const chatContainer = document.getElementById('chat-container');
+
+form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const userMessage = input.value.trim();
+    if (!userMessage) return;
+
+    // Show user message
+    const userDiv = document.createElement('div');
+    userDiv.className = 'message you';
+    userDiv.innerHTML = `<strong>You:</strong> ${userMessage}`;
+    chatContainer.appendChild(userDiv);
+
+    // Show typing indicator
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'message bot typing';
+    typingDiv.innerHTML = `<strong>Bot:</strong> <em>Typing...</em>`;
+    chatContainer.appendChild(typingDiv);
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+
+    input.value = '';
+
+    // Simulate delay before showing bot reply
+    setTimeout(() => {
+        // Get bot response (replace this with actual logic if using Flask)
+        const botReply = getBotReply(userMessage);
+
+        // Replace typing indicator with actual bot message
+        typingDiv.innerHTML = `<strong>Bot:</strong> <div class="typing-indicator"><span></span><span></span><span></span></div>`;
+
+        typingDiv.classList.remove('typing');
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }, 1500); // 1500 ms = 1.5 seconds
+});
+
+
+</script>
+</body>
+</html>

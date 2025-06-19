@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome - IT Chatbot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            margin: 0;
+            background-color: #1E1E1E; /* Dark background */
+            color: #EAEAEA; /* Light gray text */
+            font-family: Arial, sans-serif;
+        }
+
+        .logo-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .logo-container img {
+            height: 80px;
+        }
+
+        .home-container {
+            text-align: center;
+            margin: 100px auto;
+            padding: 40px;
+            background-color: #2C2C2C; /* Grey container */
+            border-radius: 10px;
+            width: 60%;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+        }
+
+       .home-container h1 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: #FFFFFF; /* 👈 Add this line to make text white */
+}
+
+
+        .home-container p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .start-button {
+            padding: 12px 24px;
+            background-color: #007bff; /* Accent blue */
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .start-button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+    </style>
+</head>
+<body>
+    <!-- 🔝 Logo in Top Right -->
+
+
+    <!-- Centered Welcome Text -->
+  <div class="home-container" style="margin-top: 200px;">
+    <div style="text-align: center; margin-bottom: 20px;">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" style="height: 80px;">
+    </div>
+    <h1>Welcome to the IT Maintenance Chatbot</h1>
+    <p>Need help with common IT issues? Let's chat!</p>
+    <a href="{{ url_for('chat') }}" class="start-button">Start Chat</a>
+</div>
+
+<div style="position: absolute; top: 20px; left: 20px; z-index: 1000;">
+  <a href="{{ url_for('about') }}" class="about-button" style="
+    display: inline-block;
+    padding: 6px 14px;
+    font-size: 14px;
+    background-color: #007bff;
+    color: #EAEAEA;
+    text-decoration: none;
+    border: 1px solid #555;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+  ">About Us</a>
+</div>
+
+
+</body>
+</html>

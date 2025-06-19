@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About Us - IT Chatbot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            margin: 0;
+            background-color: #1E1E1E;
+            color: #EAEAEA;
+            font-family: Arial, sans-serif;
+        }
+
+        .about-container {
+            max-width: 800px;
+            margin: 100px auto;
+            background-color: #2C2C2C;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+        }
+
+        h1, h2 {
+            color: #FFFFFF;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        p, ul {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #EAEAEA;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 6px 14px;
+            font-size: 14px;
+            background-color: #2D2D2D;
+            color: #EAEAEA;
+            text-decoration: none;
+            border: 1px solid #555;
+            border-radius: 6px;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+
+        .back-button:hover {
+            background-color: #444;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="about-container">
+        <h1>About Helpdesk Bot</h1>
+        <p>
+            Welcome to our Helpdesk Bot! <br><br>
+            This chatbot was built as a smart virtual assistant to help answer common IT support questions quickly and effectively. Whether you're facing issues with your Wi-Fi, Outlook, printers, or just forgot your password — we're here to guide you.
+        </p>
+        <p>
+            💡 <strong>Key Features:</strong>
+            <ul>
+                <li>Quick keyword-based tech support answers</li>
+                <li>Simple, user-friendly interface</li>
+                <li>Fast responses without needing a real technician</li>
+            </ul>
+        </p>
+        <p>
+            This project was built by a passionate team of developers for academic purposes and to demonstrate how AI-style chatbots can improve support systems.
+        </p>
+        <p>
+            Need help? Just ask a question on the chat screen and let the bot handle the rest!
+        </p>
+
+        <h2> Meet the Creators</h2>
+        <ul>
+            <li><strong>Manoj Bosco</strong> – UI Designer & Frontend Developer</li>
+            <li><strong>Robin Edwin</strong> – Chatbot Logic & Python Integration</li>
+            <li><strong> G.Sunil</strong> – Data Handling</li>
+            <li><strong> Augustin</strong> – Connection and Testing</li>
+        </ul>
+
+        <a href="{{ url_for('home') }}" class="back-button">← Home</a>
+    </div>
+
+</body>
+</html>
