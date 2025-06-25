@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Welcome - IT Chatbot</title>
+    <title>Welcome - IT Techbot</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
         body {
@@ -64,10 +64,8 @@
 
     <!-- Centered Welcome Text -->
   <div class="home-container" style="margin-top: 200px;">
-    <div style="text-align: center; margin-bottom: 20px;">
-        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" style="height: 80px;">
-    </div>
-    <h1>Welcome to the IT Maintenance Chatbot</h1>
+
+    <h1>Welcome to the IT Techbot</h1>
     <p>Need help with common IT issues? Let's chat!</p>
     <a href="{{ url_for('chat') }}" class="start-button">Start Chat</a>
 </div>
