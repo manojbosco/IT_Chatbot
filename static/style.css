@@ -196,3 +196,24 @@ button {
         opacity: 1;
     }
 }
+.options {
+    margin-top: 10px;
+}
+.option-button {
+    margin: 5px;
+    padding: 8px 16px;
+    background-color: #1E90FF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.option-button:hover {
+    background-color: #1C86EE;
+}
+#chatContainer {
+    max-height: 400px;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+}
+
