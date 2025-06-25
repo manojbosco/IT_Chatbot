@@ -560,11 +560,18 @@ def home():
 def about():
     return render_template("about.html")
 
+@app.route("/thankyou", methods=["POST"])
+def thankyou():
+    session.pop("chat_history", None)
+    return "", 204  # Just a successful empty response
+
 @app.route('/clear', methods=['POST'])
 def clear_chat():
     session.pop('chat_history', None)
     session.pop('path', None)
     return redirect(url_for('home'))
+
+
 
 @app.route("/chat", methods=["GET", "POST"])
 def chat():
