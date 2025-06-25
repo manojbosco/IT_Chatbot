@@ -128,8 +128,8 @@
 <body>
 <div class="chat-container">
 
-    <h2 style="text-align: center;">IT Maintenance Chatbot</h2>
-
+    <h2 style="text-align: center;">IT Techbot</h2>
+<div id="chatContainer">
     {% for message in chat_history %}
         <div class="message {{ 'you' if message.sender == 'You' else 'bot' }}">
             <strong>{{ message.sender }}:</strong> {{ message.text }}
@@ -145,6 +145,10 @@
             {% endif %}
         </div>
     {% endfor %}
+    <div id="scroll-anchor"></div> <!-- anchor must be inside -->
+</div>
+
+
 
     <form method="POST" id="chatForm">
         <input type="text" name="message" id="chatInput" placeholder="Ask me about your IT issue..." required>
@@ -183,6 +187,9 @@
         document.getElementById('chatForm').style.display = 'none';
         document.querySelector('.suggested-questions').style.display = 'none';
         document.getElementById('satisfaction-section').style.display = 'block';
+
+        document.getElementById('chatContainer').innerHTML = '<div id="scroll-anchor"></div>';
+        fetch('/thankyou', { method: 'POST' });
     }
 
     function restoreChat() {
@@ -199,7 +206,7 @@
         });
     });
 
-    document.getElementById("faqSearch").addEventListener("keyup", function () {
+    document.getElementById("faqSearch")?.addEventListener("keyup", function () {
         const filter = this.value.toLowerCase();
         const items = document.querySelectorAll("#faqList li");
         let hasMatch = false;
@@ -212,6 +219,21 @@
 
         document.getElementById("faqList").style.display = hasMatch || filter === '' ? "block" : "none";
     });
+
+    // ✅ SCROLL TO BOTTOM FUNCTION
+    function scrollToBottom() {
+        const anchor = document.getElementById("scroll-anchor");
+        if (anchor) {
+            anchor.scrollIntoView({ behavior: "smooth" });
+        }
+    }
+
+    // ✅ SCROLL ON PAGE LOAD
+    window.onload = scrollToBottom;
+
+    // ✅ FUTURE-PROOF: If you use fetch/JS-based chat later
+    // You’ll call scrollToBottom() after appending any new message
 </script>
+
 </body>
 </html>
