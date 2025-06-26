@@ -217,3 +217,16 @@ button {
     scroll-behavior: smooth;
 }
 
+
+.option-btn:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.current-question {
+  background-color: #e0f7fa; /* Light cyan background */
+  border-left: 5px solid #00acc1;
+  padding-left: 10px;
+  margin-bottom: 10px;
+}
