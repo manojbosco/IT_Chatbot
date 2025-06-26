@@ -161,7 +161,14 @@
     </form>
 
 <div class="suggested-questions">
-    <p><strong>Try asking:</strong></p>
+    <p><strong>
+        {% if chat_history|selectattr("sender", "equalto", "You")|list|length > 0 %}
+            Other topics:
+        {% else %}
+            Try asking:
+        {% endif %}
+    </strong></p>
+
     <ul id="faqList">
         <li class="suggestion">How to reset my password?</li>
         <li class="suggestion">WiFi not working</li>
