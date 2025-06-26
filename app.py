@@ -576,6 +576,12 @@ def clear_chat():
 
 @app.route("/chat", methods=["GET", "POST"])
 def chat():
+    if request.method == "GET":
+        # Only clear chat if the user is manually visiting the page or opening a new tab
+        if not request.referrer or not request.referrer.endswith("/chat"):
+            session.pop('chat_history', None)
+            session.pop('path', None)
+
     if 'chat_history' not in session:
         session['chat_history'] = []
 
@@ -592,28 +598,20 @@ def chat():
             session['chat_history'].append({"sender": "You", "text": user_message})
 
             response, options = get_bot_response(user_message)
-            # Append the new message first
-            new_bot_msg = {
-                "sender": "Bot",
-                "text": response
-            }
-
+            new_bot_msg = {"sender": "Bot", "text": response}
             if options:
                 new_bot_msg["options"] = options
 
-            # ✅ Remove options from previous bot messages only
+            # remove old options
             for msg in session['chat_history']:
                 if msg["sender"] == "Bot":
                     msg.pop("options", None)
 
             session['chat_history'].append(new_bot_msg)
-
             session.modified = True
             return redirect(url_for("chat"))
 
     return render_template("chat.html", chat_history=session.get('chat_history', []))
-
-
 
 
 # ---------------------- MAIN ----------------------
