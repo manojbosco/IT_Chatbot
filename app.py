@@ -556,6 +556,7 @@ def get_bot_response(user_input):
 def home():
     return render_template("home.html")
 
+
 @app.route("/about")
 def about():
     return render_template("about.html")
@@ -591,12 +592,29 @@ def chat():
             session['chat_history'].append({"sender": "You", "text": user_message})
 
             response, options = get_bot_response(user_message)
-            session['chat_history'].append({"sender": "Bot", "text": response, "options": options})
+            # Append the new message first
+            new_bot_msg = {
+                "sender": "Bot",
+                "text": response
+            }
+
+            if options:
+                new_bot_msg["options"] = options
+
+            # ✅ Remove options from previous bot messages only
+            for msg in session['chat_history']:
+                if msg["sender"] == "Bot":
+                    msg.pop("options", None)
+
+            session['chat_history'].append(new_bot_msg)
 
             session.modified = True
             return redirect(url_for("chat"))
 
     return render_template("chat.html", chat_history=session.get('chat_history', []))
+
+
+
 
 # ---------------------- MAIN ----------------------
 if __name__ == "__main__":
