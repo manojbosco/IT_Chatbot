@@ -130,21 +130,24 @@
 
     <h2 style="text-align: center;">IT Techbot</h2>
 <div id="chatContainer">
-    {% for message in chat_history %}
-        <div class="message {{ 'you' if message.sender == 'You' else 'bot' }}">
-            <strong>{{ message.sender }}:</strong> {{ message.text }}
-            {% if message.sender == 'Bot' and message.options %}
-                <div class="option-buttons">
-                    {% for option in message.options %}
-                        <form method="POST" style="display: inline;">
-                            <input type="hidden" name="message" value="{{ option }}">
-                            <button type="submit" name="action" value="send" class="quick-option">{{ option }}</button>
-                        </form>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-    {% endfor %}
+{% for message in chat_history %}
+    <div class="message {{ 'you' if message.sender == 'You' else 'bot' }}">
+        <strong>{{ message.sender }}:</strong> {{ message.text }}
+
+        {% if message.sender == 'Bot' and message.options %}
+            <div class="option-buttons option-container">
+                {% for option in message.options %}
+                    <form method="POST" style="display: inline;" onsubmit="return hideOptionsAndSubmit(this)">
+                        <input type="hidden" name="message" value="{{ option }}">
+                        <button type="submit" name="action" value="send" class="quick-option">{{ option }}</button>
+                    </form>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endfor %}
+
+
     <div id="scroll-anchor"></div> <!-- anchor must be inside -->
 </div>
 
@@ -233,7 +236,15 @@
 
     // ✅ FUTURE-PROOF: If you use fetch/JS-based chat later
     // You’ll call scrollToBottom() after appending any new message
+
+
+
+
+
+
 </script>
+
+
 
 </body>
 </html>
