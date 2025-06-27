@@ -75,9 +75,9 @@
             margin: 4px 4px 0 0;
             padding: 6px 12px;
             border-radius: 6px;
-            background-color: #3A3F47;
+            background-color: white;
             border: 1px solid #555;
-            color: #EAEAEA;
+            color: #000000;
             cursor: pointer;
         }
 
@@ -123,6 +123,12 @@
             cursor: pointer;
             font-size: 14px;
         }
+        /* When chat has started */
+.other-topics li {
+    background-color: #000000 !important;
+    color: white !important;
+}
+
     </style>
 </head>
 <body>
@@ -169,7 +175,10 @@
         {% endif %}
     </strong></p>
 
-    <ul id="faqList">
+   <ul id="faqList"
+    class="{% if chat_history|selectattr('sender', 'equalto', 'You')|list|length > 0 %}other-topics{% else %}default-topics{% endif %}">
+
+
         <li class="suggestion">How to reset my password?</li>
         <li class="suggestion">WiFi not working</li>
         <li class="suggestion">System is slow</li>
